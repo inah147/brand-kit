@@ -1,0 +1,15 @@
+fonte principal:
+  fonte: Ubuntu
+  variaveis:
+    topico: bold
+    subtopico: medium
+    texto: regular
+    legenda: light
+
+fonte secundária:
+  fonte: Segoe Ui
+  variaveis:
+    topico: bold
+    subtopico: medium
+    texto: regular
+    legenda: lightconsider

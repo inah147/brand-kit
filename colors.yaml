@@ -1,0 +1,50 @@
+inah:
+  - #70EF8E
+  - #1D2756
+
+escala de preto e cinza:
+  - #000000
+  - #333333
+  - #666666
+  - #999999
+  - #CCCCCC
+
+escoteiros do brasil:
+  - #002F73
+  - #009CC4
+  - #FFED02
+  - #C0BC01
+  - #007D32
+
+ramos:
+  filhotes:
+    primaria: #E95722
+    outras:
+      - #EF8F1F
+      - #00AF98
+      - #8F5F36
+      - #FFFFFF
+  lobinho:
+    primaria: #F3B21E
+    outras:
+      - #014285
+      - #8D8D8C
+      - #C9C9C9
+      - #FFFFFF
+  escoteiro:
+    primaria: #004F1F
+    outras:
+      - #8EBB1E
+      - #FFFFFF
+  senior:
+    primaria: #A41D3A
+    outras:
+      - #004D99
+      - #0099D7
+      - #FFFFFF
+  pioneiro:
+    primaria: #DC2A10
+    outras:
+      - #524491
+      - #01969F
+      - #FFFFFF
