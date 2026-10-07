@@ -7,6 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,700&family=Ubuntu+Mono:wght@400;700&family=Noto+Sans:wght@300;400;600;700&family=Baloo+2:wght@700;800&family=Fraunces:opsz,wght,SOFT,WONK@9..144,800..900,100,1&family=Barlow+Condensed:wght@600;700;800&family=Caveat:wght@600;700&family=Bricolage+Grotesque:opsz,wght@12..96,600..800&display=swap">
+<script>(function(){try{var savedTheme=localStorage.getItem('inah-theme');if(savedTheme==='light'||savedTheme==='dark')document.documentElement.setAttribute('data-theme',savedTheme)}catch(err){}})();</script>
 <style>
 /* Layout: capa azul de borda a borda; abaixo, sumário fixo à esquerda e coluna de leitura com pranchas da marca à direita */
 :root{
@@ -73,6 +74,16 @@ a{color:var(--accent);text-underline-offset:3px}
 /* ---------- casca ---------- */
 .shell{max-width:1240px;margin:0 auto;padding-inline:clamp(16px,4vw,40px);display:grid;grid-template-columns:210px minmax(0,1fr);gap:clamp(32px,5vw,64px)}
 .toc{position:sticky;top:calc(env(safe-area-inset-top,0px) + 24px);align-self:start;padding-block:64px 24px}
+.toc-actions{display:grid;gap:12px}
+.toc-details>summary{display:flex;align-items:center;list-style:none;cursor:pointer}
+.toc-details>summary::-webkit-details-marker{display:none}
+.toc-current{display:none}
+.theme-toggle{display:inline-flex;align-items:center;justify-content:flex-start;gap:.55rem;width:100%;min-height:40px;padding:.5rem .65rem;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--ink);font:500 .875rem var(--f-sans);cursor:pointer}
+.theme-toggle svg{width:18px;height:18px;flex:none}
+.theme-icon-sun{display:none}
+:root[data-theme="dark"] .theme-icon-moon{display:none}
+:root[data-theme="dark"] .theme-icon-sun{display:inline}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .theme-icon-moon{display:none}:root:not([data-theme="light"]) .theme-icon-sun{display:inline}}
 .toc ol{list-style:none;margin:.8rem 0 0;padding:0;display:grid;gap:2px}
 .toc a{display:grid;grid-template-columns:2.1em 1fr;padding:.3rem .6rem;border-left:2px solid transparent;color:var(--muted);text-decoration:none;font-size:.9375rem;line-height:1.35}
 .toc a span{font-family:var(--f-mono);font-size:.85em;padding-top:.1em}
@@ -85,8 +96,18 @@ main{min-width:0}
 .ch-num{font-family:var(--f-mono);font-size:var(--s1);color:var(--muted)}
 @media (max-width:960px){
   .shell{grid-template-columns:1fr;gap:0}
-  .toc{position:static;padding-block:32px 8px}
-  .toc ol{grid-template-columns:repeat(auto-fill,minmax(170px,1fr))}
+  .toc{position:sticky;top:env(safe-area-inset-top,0px);z-index:8;margin-inline:calc(-1 * clamp(16px,4vw,40px));padding:8px clamp(16px,4vw,40px);background:var(--bg);border-bottom:1px solid var(--line)}
+  .toc-actions{grid-template-columns:minmax(0,1fr) 44px;align-items:start;gap:8px}
+  .chapter{scroll-margin-top:calc(68px + env(safe-area-inset-top,0px))}
+  .toc-details{position:relative;min-width:0}
+  .toc-details>summary{position:relative;min-height:44px;padding:9px 42px 9px 12px;gap:12px;background:var(--surface);border:1px solid var(--line);border-radius:6px}
+  .toc-current{display:block;min-width:0;margin-left:auto;overflow:hidden;color:var(--ink);font-size:.9375rem;font-weight:500;text-overflow:ellipsis;white-space:nowrap}
+  .toc-details>summary::after{position:absolute;right:16px;top:15px;width:8px;height:8px;border-right:2px solid var(--ink);border-bottom:2px solid var(--ink);content:"";transform:rotate(45deg);transition:transform .15s}
+  .toc-details[open]>summary::after{top:19px;transform:rotate(225deg)}
+  .toc ol{position:absolute;top:calc(100% + 5px);left:0;right:0;z-index:9;grid-template-columns:repeat(2,minmax(0,1fr));max-height:min(65vh,520px);margin:0;padding:8px;overflow-y:auto;background:var(--surface);border:1px solid var(--line);border-radius:6px;box-shadow:0 8px 18px rgba(13,18,48,.18)}
+  .toc a{min-height:40px;align-items:center}
+  .theme-toggle{width:44px;height:44px;min-height:44px;justify-content:center;padding:0}
+  .theme-text{display:none}
 }
 
 /* ---------- pranchas ---------- */
@@ -268,6 +289,22 @@ button.code:hover{text-decoration-style:solid}
 .list.yes svg{color:var(--ok)}
 .list.no svg{color:var(--bad)}
 .box{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:20px 22px;display:grid;gap:.9rem;align-content:start}
+.chart-demo{display:block;width:100%;height:300px;min-width:0}
+.chart-demo.chart-unavailable{display:grid;place-items:center;color:var(--muted);font-size:.9375rem;text-align:center}
+.infographic{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.infographic-head{background:var(--azul);padding:clamp(18px,3vw,28px);display:grid;gap:.55rem}
+.infographic-head .label{color:var(--verde)}
+.infographic-head h3{color:#FFFFFF;font-size:var(--s3);margin:0}
+.infographic-head p:last-child{color:#D8DDED;max-width:60ch}
+.infographic-body{display:grid;gap:12px;padding:18px clamp(16px,3vw,28px) 4px}
+.infographic-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.infographic-stat{padding:10px 0;border-bottom:1px solid var(--line);display:grid;gap:4px}
+.infographic-stat strong{font-size:var(--s3);line-height:1;color:var(--ink)}
+.infographic-stat span{font-size:.875rem;color:var(--muted)}
+.infographic-chart{min-width:0}
+.infographic-chart .chart-demo{height:280px}
+.infographic-foot{padding:8px clamp(16px,3vw,28px) 18px;color:var(--muted);font-size:.875rem}
+@media (max-width:460px){.infographic-stats{gap:10px}.infographic-stat span{font-size:.8125rem}}
 .note{border:1px solid var(--line);border-left:4px solid var(--mark);background:var(--surface);border-radius:6px;padding:16px 18px;display:grid;gap:.4rem;max-width:72ch}
 .note b{color:var(--ink);font-weight:500}
 .tarja{position:absolute;left:0;right:0;bottom:0;background:#FFFFFF;padding:4% 6%;display:flex;align-items:center}
@@ -494,21 +531,30 @@ button.code:hover{text-decoration-style:solid}
 
 <div class="shell">
   <nav class="toc" aria-label="Sumário">
-    <p class="label">Sumário</p>
-    <ol>
-      <li><a href="#essencia"><span>01</span>Essência e nome</a></li>
-      <li><a href="#logotipo"><span>02</span>Logotipo</a></li>
-      <li><a href="#cores"><span>03</span>Cores e paletas</a></li>
-      <li><a href="#degrades"><span>04</span>Degradês e texturas</a></li>
-      <li><a href="#tipografia"><span>05</span>Tipografia</a></li>
-      <li><a href="#apoio"><span>06</span>Elementos de apoio</a></li>
-      <li><a href="#icones"><span>07</span>Iconografia</a></li>
-      <li><a href="#ramos"><span>08</span>Ramos</a></li>
-      <li><a href="#ueb"><span>09</span>Escoteiros do Brasil e outras marcas</a></li>
-      <li><a href="#aplicacoes"><span>10</span>Aplicações</a></li>
-      <li><a href="#voz"><span>11</span>Voz e tom</a></li>
-      <li><a href="#arquivos"><span>12</span>Arquivos e contato</a></li>
-    </ol>
+    <div class="toc-actions">
+      <details class="toc-details" open>
+        <summary><span class="label">Sumário</span><span class="toc-current">Essência e nome</span></summary>
+        <ol>
+          <li><a href="#essencia"><span>01</span>Essência e nome</a></li>
+          <li><a href="#logotipo"><span>02</span>Logotipo</a></li>
+          <li><a href="#cores"><span>03</span>Cores e paletas</a></li>
+          <li><a href="#degrades"><span>04</span>Degradês e texturas</a></li>
+          <li><a href="#tipografia"><span>05</span>Tipografia</a></li>
+          <li><a href="#apoio"><span>06</span>Elementos de apoio</a></li>
+          <li><a href="#icones"><span>07</span>Iconografia</a></li>
+          <li><a href="#ramos"><span>08</span>Ramos</a></li>
+          <li><a href="#ueb"><span>09</span>Escoteiros do Brasil e outras marcas</a></li>
+          <li><a href="#aplicacoes"><span>10</span>Aplicações</a></li>
+          <li><a href="#voz"><span>11</span>Voz e tom</a></li>
+          <li><a href="#arquivos"><span>12</span>Arquivos e contato</a></li>
+        </ol>
+      </details>
+      <button class="theme-toggle" type="button" aria-label="Ativar tema escuro" title="Ativar tema escuro">
+        <svg class="theme-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"/></svg>
+        <svg class="theme-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 15.2A8.5 8.5 0 0 1 8.8 3.5 8.5 8.5 0 1 0 20.5 15.2Z"/></svg>
+        <span class="theme-text">Escuro</span>
+      </button>
+    </div>
   </nav>
 
   <main>
@@ -854,6 +900,86 @@ button.code:hover{text-decoration-style:solid}
     <h3>3.6 Combinações de texto</h3>
     <p class="prose mt small">Contraste medido pelo padrão WCAG. A partir de 4,5:1 o texto é legível em qualquer tamanho. Entre 3:1 e 4,5:1, só em títulos grandes. Abaixo de 3:1, a combinação serve só para formas e grafismos.</p>
     <div class="mt"><div class="pairs"><div class="pair"><div class="pair-demo" style="background:#FFFFFF;color:#1D2756"><b>Aa</b><span>Sempre Alerta</span></div><div class="pair-info"><span class="mono">14,2 : 1</span><span class="verdict yes"><svg width="16" height="16"><use href="#i-yes"/></svg>Azul sobre branco</span></div></div><div class="pair"><div class="pair-demo" style="background:#1D2756;color:#FFFFFF"><b>Aa</b><span>Sempre Alerta</span></div><div class="pair-info"><span class="mono">14,2 : 1</span><span class="verdict yes"><svg width="16" height="16"><use href="#i-yes"/></svg>Branco sobre azul</span></div></div><div class="pair"><div class="pair-demo" style="background:#1D2756;color:#70EF8E"><b>Aa</b><span>Sempre Alerta</span></div><div class="pair-info"><span class="mono">9,8 : 1</span><span class="verdict yes"><svg width="16" height="16"><use href="#i-yes"/></svg>Verde sobre azul</span></div></div><div class="pair"><div class="pair-demo" style="background:#70EF8E;color:#1D2756"><b>Aa</b><span>Sempre Alerta</span></div><div class="pair-info"><span class="mono">9,8 : 1</span><span class="verdict yes"><svg width="16" height="16"><use href="#i-yes"/></svg>Azul sobre verde</span></div></div><div class="pair"><div class="pair-demo" style="background:#FFFFFF;color:#333333"><b>Aa</b><span>Sempre Alerta</span></div><div class="pair-info"><span class="mono">12,6 : 1</span><span class="verdict yes"><svg width="16" height="16"><use href="#i-yes"/></svg>Cinza 80 sobre branco</span></div></div><div class="pair"><div class="pair-demo" style="background:#FFFFFF;color:#666666"><b>Aa</b><span>Sempre Alerta</span></div><div class="pair-info"><span class="mono">5,7 : 1</span><span class="verdict yes"><svg width="16" height="16"><use href="#i-yes"/></svg>Cinza 60 sobre branco</span></div></div><div class="pair"><div class="pair-demo" style="background:#16794A;color:#FFFFFF"><b>Aa</b><span>Sempre Alerta</span></div><div class="pair-info"><span class="mono">5,4 : 1</span><span class="verdict yes"><svg width="16" height="16"><use href="#i-yes"/></svg>Branco sobre Verde Mata</span></div></div><div class="pair"><div class="pair-demo" style="background:#2F6FD8;color:#FFFFFF"><b>Aa</b><span>Sempre Alerta</span></div><div class="pair-info"><span class="mono">4,8 : 1</span><span class="verdict yes"><svg width="16" height="16"><use href="#i-yes"/></svg>Branco sobre Azul Céu</span></div></div><div class="pair"><div class="pair-demo" style="background:#FF7A3D;color:#1D2756"><b>Aa</b><span>Sempre Alerta</span></div><div class="pair-info"><span class="mono">5,5 : 1</span><span class="verdict yes"><svg width="16" height="16"><use href="#i-yes"/></svg>Azul sobre Laranja Fogueira</span></div></div><div class="pair"><div class="pair-demo" style="background:#1FB5A5;color:#1D2756"><b>Aa</b><span>Sempre Alerta</span></div><div class="pair-info"><span class="mono">5,6 : 1</span><span class="verdict yes"><svg width="16" height="16"><use href="#i-yes"/></svg>Azul sobre Rio</span></div></div><div class="pair"><div class="pair-demo" style="background:#0E1433;color:#FFD447"><b>Aa</b><span>Sempre Alerta</span></div><div class="pair-info"><span class="mono">12,7 : 1</span><span class="verdict yes"><svg width="16" height="16"><use href="#i-yes"/></svg>Lanterna sobre Azul Noite</span></div></div><div class="pair"><div class="pair-demo" style="background:#F4E8D0;color:#1D2756"><b>Aa</b><span>Sempre Alerta</span></div><div class="pair-info"><span class="mono">11,7 : 1</span><span class="verdict yes"><svg width="16" height="16"><use href="#i-yes"/></svg>Azul sobre Areia</span></div></div><div class="pair"><div class="pair-demo" style="background:#1FB5A5;color:#FFFFFF"><b>Aa</b><span>Sempre Alerta</span></div><div class="pair-info"><span class="mono">2,6 : 1</span><span class="verdict no"><svg width="16" height="16"><use href="#i-no"/></svg>Branco sobre Rio</span></div></div><div class="pair"><div class="pair-demo" style="background:#FF7A3D;color:#FFFFFF"><b>Aa</b><span>Sempre Alerta</span></div><div class="pair-info"><span class="mono">2,6 : 1</span><span class="verdict no"><svg width="16" height="16"><use href="#i-no"/></svg>Branco sobre Laranja</span></div></div><div class="pair"><div class="pair-demo" style="background:#FFFFFF;color:#999999"><b>Aa</b><span>Sempre Alerta</span></div><div class="pair-info"><span class="mono">2,8 : 1</span><span class="verdict no"><svg width="16" height="16"><use href="#i-no"/></svg>Cinza 40 sobre branco</span></div></div><div class="pair"><div class="pair-demo" style="background:#FFFFFF;color:#70EF8E"><b>Aa</b><span>Sempre Alerta</span></div><div class="pair-info"><span class="mono">1,5 : 1</span><span class="verdict no"><svg width="16" height="16"><use href="#i-no"/></svg>Verde sobre branco</span></div></div></div></div>
+
+    <h3>3.7 Gráficos e dados acessíveis</h3>
+    <p class="prose mt">Use o Azul Inah para títulos, eixos e séries principais. Reserve o Verde Inah para destacar um dado importante, sempre com rótulo. Para séries categóricas, prefira as cores da identidade do grupo mostradas abaixo. Como alguns tons são próximos para certas pessoas, combine cada cor com rótulos, marcadores ou padrões próprios.</p>
+
+    <h4 class="tx-h">Cores da marca</h4>
+    <div class="ctiles mt" role="list">
+      <div class="ctile" role="listitem"><div class="ctile-c" role="img" aria-label="Azul Inah, código hexadecimal 1D2756" style="background:#1D2756"></div><div class="ctile-t"><b>Azul Inah</b><span class="mono">#1D2756 · série principal</span></div></div>
+      <div class="ctile" role="listitem"><div class="ctile-c" role="img" aria-label="Verde Inah, código hexadecimal 70EF8E" style="background:#70EF8E"></div><div class="ctile-t"><b>Verde Inah</b><span class="mono">#70EF8E · destaque pontual</span></div></div>
+    </div>
+    <p class="muted small mt">O Verde Inah não tem contraste suficiente para texto sobre branco. Use-o em uma área, marcador ou linha acompanhada por rótulo, não como texto nem como único sinal de uma categoria.</p>
+
+    <h4 class="tx-h">Categorias · até 8 séries</h4>
+    <div class="ctiles mt" role="list">
+      <div class="ctile" role="listitem"><div class="ctile-c" role="img" aria-label="Azul Inah, código hexadecimal 1D2756" style="background:#1D2756"></div><div class="ctile-t"><b>Azul Inah</b><span class="mono">#1D2756</span></div></div>
+      <div class="ctile" role="listitem"><div class="ctile-c" role="img" aria-label="Azul Céu, código hexadecimal 2F6FD8" style="background:#2F6FD8"></div><div class="ctile-t"><b>Azul Céu</b><span class="mono">#2F6FD8</span></div></div>
+      <div class="ctile" role="listitem"><div class="ctile-c" role="img" aria-label="Rio, código hexadecimal 1FB5A5" style="background:#1FB5A5"></div><div class="ctile-t"><b>Rio</b><span class="mono">#1FB5A5</span></div></div>
+      <div class="ctile" role="listitem"><div class="ctile-c" role="img" aria-label="Verde Mata, código hexadecimal 16794A" style="background:#16794A"></div><div class="ctile-t"><b>Verde Mata</b><span class="mono">#16794A</span></div></div>
+      <div class="ctile" role="listitem"><div class="ctile-c" role="img" aria-label="Verde Inah, código hexadecimal 70EF8E" style="background:#70EF8E"></div><div class="ctile-t"><b>Verde Inah</b><span class="mono">#70EF8E</span></div></div>
+      <div class="ctile" role="listitem"><div class="ctile-c" role="img" aria-label="Verde Folha, código hexadecimal C2F06A" style="background:#C2F06A"></div><div class="ctile-t"><b>Verde Folha</b><span class="mono">#C2F06A</span></div></div>
+      <div class="ctile" role="listitem"><div class="ctile-c" role="img" aria-label="Amarelo Lanterna, código hexadecimal FFD447" style="background:#FFD447"></div><div class="ctile-t"><b>Amarelo Lanterna</b><span class="mono">#FFD447</span></div></div>
+      <div class="ctile" role="listitem"><div class="ctile-c" role="img" aria-label="Laranja Fogueira, código hexadecimal FF7A3D" style="background:#FF7A3D"></div><div class="ctile-t"><b>Laranja Fogueira</b><span class="mono">#FF7A3D</span></div></div>
+    </div>
+    <p class="muted small mt">Use uma cor por categoria e mantenha a mesma ordem na legenda e no gráfico. Se houver mais de oito categorias, agrupe-as ou use rótulos diretos em vez de acrescentar cores parecidas.</p>
+
+    <h4 class="tx-h">Valores ordenados e divergentes</h4>
+    <div class="grid g2 mt">
+      <div class="box">
+        <h4>Escala sequencial</h4>
+        <p class="small">Para valores que vão do menor ao maior, use uma única família. A escala azul existente vai do claro (menor) ao escuro (maior).</p>
+        <div class="ratio" role="img" aria-label="Escala sequencial azul: menor no tom mais claro, maior no tom mais escuro">
+          <div aria-hidden="true" style="flex:1;background:#E4E5EB"></div><div aria-hidden="true" style="flex:1;background:#A0A4B8"></div><div aria-hidden="true" style="flex:1;background:#5C6385"></div><div aria-hidden="true" style="flex:1;background:#1D2756"></div><div aria-hidden="true" style="flex:1;background:#0E1433"></div>
+        </div>
+        <p class="muted small">Use a escala Azul 100 → Azul 900 do item 3.4 e mostre os valores na legenda.</p>
+      </div>
+      <div class="box">
+        <h4>Escala divergente</h4>
+        <p class="small">Para valores abaixo e acima de um ponto central, como zero. Azul e vermelhão ficam em lados opostos; o centro neutro marca a referência.</p>
+        <div class="ctiles c5" role="list">
+          <div class="ctile" role="listitem"><div class="ctile-c" role="img" aria-label="Abaixo do centro, Azul Céu 2F6FD8" style="background:#2F6FD8"></div><div class="ctile-t"><b>Abaixo</b><span class="mono">#2F6FD8</span></div></div>
+          <div class="ctile" role="listitem"><div class="ctile-c" role="img" aria-label="Centro neutro, Areia F4E8D0" style="background:#F4E8D0"></div><div class="ctile-t"><b>Centro</b><span class="mono">#F4E8D0</span></div></div>
+          <div class="ctile" role="listitem"><div class="ctile-c" role="img" aria-label="Acima do centro, Laranja Fogueira FF7A3D" style="background:#FF7A3D"></div><div class="ctile-t"><b>Acima</b><span class="mono">#FF7A3D</span></div></div>
+        </div>
+        <p class="muted small">Marque o zero ou valor de referência e identifique os sinais − e +.</p>
+      </div>
+    </div>
+
+    <h4 class="tx-h">Exemplos de aplicação</h4>
+    <p class="prose mt small">Os valores a seguir são fictícios e servem apenas para mostrar como aplicar as cores e os recursos de leitura acessível.</p>
+    <div class="grid g2 mt">
+      <figure class="box">
+        <div class="chart-demo" id="chart-bars" role="img" aria-label="Exemplo fictício com oito categorias: trilha 12, acampamento 9, serviço 7, jogos 5, formação 8, comunidade 6, natureza 10 e patrimônio 4. Cada categoria tem nome e valor rotulados."></div>
+        <figcaption><b>Barras por categoria.</b> Exemplo fictício com as oito cores da paleta. Os nomes e valores são rótulos diretos.</figcaption>
+      </figure>
+
+      <figure class="box">
+        <div class="chart-demo" id="chart-donut" role="img" aria-label="Gráfico de rosca fictício com oito categorias e valores: trilha 12, acampamento 9, serviço 7, jogos 5, formação 8, comunidade 6, natureza 10 e patrimônio 4. A legenda identifica todas as fatias."></div>
+        <figcaption><b>Rosca de composição.</b> Oito categorias com legenda completa; use para partes de um total, não para comparar valores muito próximos.</figcaption>
+      </figure>
+
+      <figure class="box">
+        <div class="chart-demo" id="chart-lines" role="img" aria-label="Exemplo fictício de março a agosto. Trilha usa Azul Inah, linha contínua e círculos; acampamento usa Verde Mata, linha tracejada e quadrados; serviço usa Azul Céu, linha pontilhada e triângulos."></div>
+        <figcaption><b>Linhas ao longo do tempo.</b> Valores fictícios (março a agosto): trilha 2, 4, 3, 6, 7, 9; acampamento 3, 3, 5, 4, 6, 6; serviço 1, 2, 2, 3, 5, 7. Cada série combina cor, traço, marcador e nome.</figcaption>
+      </figure>
+
+      <figure class="box">
+        <div class="chart-demo" id="chart-diverging" role="img" aria-label="Exemplo fictício: equipe A menos 4, equipe B menos 2, equipe C mais 1 e equipe D mais 3. A posição, os sinais e a linha zero indicam a direção; Azul Céu e Laranja Fogueira reforçam a leitura."></div>
+        <figcaption><b>Barras divergentes.</b> Valores fictícios: equipe A −4, B −2, C +1 e D +3. A posição indica a direção, a linha marca zero e os sinais acompanham os valores.</figcaption>
+      </figure>
+
+      <figure class="box">
+        <div class="chart-demo" id="chart-scatter" role="img" aria-label="Dispersão fictícia entre horas de atividade e esforço percebido, com três séries identificadas por nome, cor e forma do marcador: trilha, acampamento e serviço."></div>
+        <figcaption><b>Dispersão.</b> Compara duas medidas numéricas. As séries têm cor, forma de marcador e nome na legenda; os pontos são fictícios.</figcaption>
+      </figure>
+    </div>
+
+    <ul class="list yes mt">
+      <li><svg width="16" height="16"><use href="#i-yes"/></svg>Combine cor com rótulos diretos, símbolos ou padrões diferentes; nunca transmita significado só pela cor.</li>
+      <li><svg width="16" height="16"><use href="#i-yes"/></svg>Mantenha contraste suficiente entre o dado e o fundo. Para texto, siga o mínimo de 4,5:1 do item 3.6.</li>
+      <li><svg width="16" height="16"><use href="#i-yes"/></svg>Confira o gráfico em escala de cinza e, quando possível, com simulador de deficiência de visão de cores.</li>
+    </ul>
   </section>
 
   <!-- 04 -->
@@ -1408,6 +1534,29 @@ button.code:hover{text-decoration-style:solid}
     </header>
 
     <div class="apps">
+      <figure class="span-all">
+        <div class="infographic">
+          <header class="infographic-head">
+            <p class="label">Infográfico · dados fictícios</p>
+            <h3>Uma tarde em atividades</h3>
+            <p>Uma composição de indicadores e gráfico para apresentar várias frentes de atividade em uma única peça.</p>
+          </header>
+          <div class="infographic-body">
+            <div class="infographic-stats" aria-label="Indicadores do exemplo fictício">
+              <div class="infographic-stat"><strong>61</strong><span>contagens ilustrativas</span></div>
+              <div class="infographic-stat"><strong>8</strong><span>categorias</span></div>
+              <div class="infographic-stat"><strong>12</strong><span>maior valor no exemplo</span></div>
+            </div>
+            <div class="infographic-chart">
+              <p class="label">Distribuição ilustrativa por atividade</p>
+              <div class="chart-demo" id="chart-infographic" role="img" aria-label="Gráfico fictício de oito categorias: trilha 12, acampamento 9, serviço 7, jogos 5, formação 8, comunidade 6, natureza 10 e patrimônio 4."></div>
+            </div>
+          </div>
+          <p class="infographic-foot">Exemplo de composição para redes sociais. Os números não representam dados reais do grupo.</p>
+        </div>
+        <figcaption><b>Infográfico para redes sociais.</b> Indicadores curtos, título direto e gráfico com categorias rotuladas, em uma composição da identidade do Inah.</figcaption>
+      </figure>
+
       <figure>
         <div class="post post--azul">
           <img class="post-flor" src="img/flor.png" alt="" style="width:64cqw;right:-24cqw;bottom:-18cqw">
@@ -1684,6 +1833,7 @@ button.code:hover{text-decoration-style:solid}
 
 <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
 
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.6.0/dist/echarts.min.js"></script>
 <script>
 (function(){
   var toast=document.getElementById('toast'), t;
@@ -1701,6 +1851,127 @@ button.code:hover{text-decoration-style:solid}
       }else{fallback(btn,val)}
     }catch(err){fallback(btn,val)}
   });
+
+  var themeToggle=document.querySelector('.theme-toggle');
+  var themeText=themeToggle&&themeToggle.querySelector('.theme-text');
+  var systemTheme=window.matchMedia('(prefers-color-scheme: dark)');
+  function activeTheme(){return document.documentElement.getAttribute('data-theme')||(systemTheme.matches?'dark':'light')}
+  function syncThemeToggle(){
+    if(!themeToggle) return;
+    var nextTheme=activeTheme()==='dark'?'light':'dark';
+    var label='Ativar tema '+(nextTheme==='dark'?'escuro':'claro');
+    themeToggle.setAttribute('aria-label',label);
+    themeToggle.title=label;
+    if(themeText) themeText.textContent=nextTheme==='dark'?'Escuro':'Claro';
+  }
+  if(themeToggle){
+    themeToggle.addEventListener('click',function(){
+      var nextTheme=activeTheme()==='dark'?'light':'dark';
+      document.documentElement.setAttribute('data-theme',nextTheme);
+      try{localStorage.setItem('inah-theme',nextTheme)}catch(err){}
+      syncThemeToggle();
+    });
+    if(systemTheme.addEventListener) systemTheme.addEventListener('change',function(){if(!document.documentElement.hasAttribute('data-theme'))syncThemeToggle()});
+    else if(systemTheme.addListener) systemTheme.addListener(function(){if(!document.documentElement.hasAttribute('data-theme'))syncThemeToggle()});
+    syncThemeToggle();
+  }
+
+  var chartElements=[].slice.call(document.querySelectorAll('.chart-demo'));
+  var chartInstances=[];
+  if(window.echarts){
+    var chartStyles=window.getComputedStyle(document.documentElement);
+    var chartText=chartStyles.getPropertyValue('--text').trim()||'#333333';
+    var chartMuted=chartStyles.getPropertyValue('--muted').trim()||'#666666';
+    var chartLine=chartStyles.getPropertyValue('--line').trim()||'#DCDFE9';
+    var chartFont={fontFamily:'Ubuntu, sans-serif',color:chartText};
+    function initChart(id,option){
+      var element=document.getElementById(id); if(!element) return;
+      option.animation=false;
+      option.aria={enabled:true,decal:{show:false}};
+      option.textStyle=chartFont;
+      var instance=window.echarts.init(element,null,{renderer:'canvas'});
+      instance.setOption(option);
+      chartInstances.push(instance);
+    }
+    initChart('chart-bars',{
+      tooltip:{trigger:'axis',axisPointer:{type:'shadow'},confine:true},
+      grid:{left:92,right:30,top:14,bottom:30,containLabel:true},
+      xAxis:{type:'value',min:0,max:14,interval:2,axisLabel:{color:chartText},axisLine:{show:false},axisTick:{show:false},splitLine:{lineStyle:{color:chartLine}}},
+      yAxis:{type:'category',inverse:true,data:['Trilha','Acampamento','Serviço','Jogos','Formação','Comunidade','Natureza','Patrimônio'],axisLabel:{color:chartText,fontSize:11},axisLine:{show:false},axisTick:{show:false}},
+      series:[{name:'Contagem fictícia',type:'bar',barMaxWidth:20,data:[
+        {value:12,itemStyle:{color:'#1D2756'}},{value:9,itemStyle:{color:'#16794A'}},
+        {value:7,itemStyle:{color:'#2F6FD8'}},{value:5,itemStyle:{color:'#FF7A3D'}},
+        {value:8,itemStyle:{color:'#1FB5A5'}},{value:6,itemStyle:{color:'#70EF8E'}},
+        {value:10,itemStyle:{color:'#C2F06A'}},{value:4,itemStyle:{color:'#FFD447'}}
+      ],itemStyle:{borderRadius:[0,3,3,0]},label:{show:true,position:'right',color:chartText,fontWeight:'bold',fontSize:11},emphasis:{focus:'self'}}]
+    });
+    initChart('chart-infographic',{
+      tooltip:{trigger:'axis',axisPointer:{type:'shadow'},confine:true},
+      grid:{left:96,right:28,top:8,bottom:26,containLabel:true},
+      xAxis:{type:'value',min:0,max:14,interval:2,axisLabel:{color:chartText,fontSize:11},axisLine:{show:false},axisTick:{show:false},splitLine:{lineStyle:{color:chartLine}}},
+      yAxis:{type:'category',inverse:true,data:['Trilha','Acampamento','Serviço','Jogos','Formação','Comunidade','Natureza','Patrimônio'],axisLabel:{color:chartText,fontSize:11},axisLine:{show:false},axisTick:{show:false}},
+      series:[{name:'Contagem ilustrativa',type:'bar',barMaxWidth:18,data:[
+        {value:12,itemStyle:{color:'#1D2756'}},{value:9,itemStyle:{color:'#16794A'}},
+        {value:7,itemStyle:{color:'#2F6FD8'}},{value:5,itemStyle:{color:'#FF7A3D'}},
+        {value:8,itemStyle:{color:'#1FB5A5'}},{value:6,itemStyle:{color:'#70EF8E'}},
+        {value:10,itemStyle:{color:'#C2F06A'}},{value:4,itemStyle:{color:'#FFD447'}}
+      ],itemStyle:{borderRadius:[0,3,3,0]},label:{show:true,position:'right',color:chartText,fontSize:11,fontWeight:'bold'},emphasis:{focus:'self'}}]
+    });
+    initChart('chart-donut',{
+      tooltip:{trigger:'item',confine:true,formatter:'{b}: {c} ({d}%)'},
+      legend:{orient:'vertical',left:'55%',top:'middle',itemWidth:10,itemHeight:10,itemGap:8,textStyle:{color:chartText,fontSize:11},data:['Trilha','Acampamento','Serviço','Jogos','Formação','Comunidade','Natureza','Patrimônio']},
+      series:[{name:'Participações fictícias',type:'pie',radius:['34%','56%'],center:['27%','50%'],avoidLabelOverlap:true,label:{show:false},labelLine:{show:false},itemStyle:{borderColor:chartStyles.getPropertyValue('--surface').trim()||'#FFFFFF',borderWidth:2},data:[
+        {name:'Trilha',value:12,itemStyle:{color:'#1D2756'}},{name:'Acampamento',value:9,itemStyle:{color:'#16794A'}},
+        {name:'Serviço',value:7,itemStyle:{color:'#2F6FD8'}},{name:'Jogos',value:5,itemStyle:{color:'#FF7A3D'}},
+        {name:'Formação',value:8,itemStyle:{color:'#1FB5A5'}},{name:'Comunidade',value:6,itemStyle:{color:'#70EF8E'}},
+        {name:'Natureza',value:10,itemStyle:{color:'#C2F06A'}},{name:'Patrimônio',value:4,itemStyle:{color:'#FFD447'}}
+      ]}]
+    });
+    initChart('chart-lines',{
+      tooltip:{trigger:'axis',axisPointer:{type:'cross'},confine:true},
+      legend:{type:'scroll',bottom:0,left:0,right:0,data:[{name:'Trilha',icon:'circle'},{name:'Acampamento',icon:'rect'},{name:'Serviço',icon:'triangle'}],textStyle:{color:chartText}},
+      grid:{left:38,right:18,top:22,bottom:60,containLabel:true},
+      xAxis:{type:'category',boundaryGap:false,data:['Mar','Abr','Mai','Jun','Jul','Ago'],axisLabel:{color:chartText},axisLine:{lineStyle:{color:chartMuted}},axisTick:{show:false}},
+      yAxis:{type:'value',min:0,max:10,interval:5,axisLabel:{color:chartText},axisLine:{show:false},axisTick:{show:false},splitLine:{lineStyle:{color:chartLine}}},
+      series:[
+        {name:'Trilha',type:'line',data:[2,4,3,6,7,9],symbol:'circle',symbolSize:9,lineStyle:{color:'#1D2756',width:3,type:'solid'},itemStyle:{color:'#1D2756'},emphasis:{focus:'series'}},
+        {name:'Acampamento',type:'line',data:[3,3,5,4,6,6],symbol:'rect',symbolSize:9,lineStyle:{color:'#16794A',width:3,type:'dashed'},itemStyle:{color:'#16794A'},emphasis:{focus:'series'}},
+        {name:'Serviço',type:'line',data:[1,2,2,3,5,7],symbol:'triangle',symbolSize:10,lineStyle:{color:'#2F6FD8',width:3,type:'dotted'},itemStyle:{color:'#2F6FD8'},emphasis:{focus:'series'}}
+      ]
+    });
+    initChart('chart-diverging',{
+      tooltip:{trigger:'axis',axisPointer:{type:'shadow'},confine:true},
+      grid:{left:86,right:38,top:20,bottom:42,containLabel:true},
+      xAxis:{type:'value',min:-5,max:5,interval:2,axisLabel:{color:chartText,formatter:function(value){return value>0?'+'+value:String(value)}},axisLine:{onZero:true,lineStyle:{color:chartMuted,width:2}},axisTick:{show:false},splitLine:{lineStyle:{color:chartLine}}},
+      yAxis:{type:'category',inverse:true,data:['Equipe A','Equipe B','Equipe C','Equipe D'],axisLabel:{color:chartText},axisLine:{show:false},axisTick:{show:false}},
+      series:[{name:'Desvio fictício',type:'bar',barMaxWidth:26,data:[
+        {value:-4,itemStyle:{color:'#2F6FD8'},label:{position:'left'}},
+        {value:-2,itemStyle:{color:'#2F6FD8'},label:{position:'left'}},
+        {value:1,itemStyle:{color:'#FF7A3D'},label:{position:'right'}},
+        {value:3,itemStyle:{color:'#FF7A3D'},label:{position:'right'}}
+      ],label:{show:true,color:chartText,fontWeight:'bold',formatter:function(params){return params.value>0?'+'+params.value:String(params.value)}},emphasis:{focus:'self'}}]
+    });
+    initChart('chart-scatter',{
+      tooltip:{trigger:'item',confine:true,formatter:function(params){return params.seriesName+': '+params.value[0]+' h, esforço '+params.value[1]+'/10'}},
+      legend:{top:0,left:'center',data:[{name:'Trilha',icon:'circle'},{name:'Acampamento',icon:'rect'},{name:'Serviço',icon:'triangle'}],textStyle:{color:chartText,fontSize:11}},
+      grid:{left:48,right:22,top:38,bottom:42,containLabel:true},
+      xAxis:{type:'value',name:'Horas',nameLocation:'middle',nameGap:25,min:0,max:10,interval:2,axisLabel:{color:chartText},axisLine:{lineStyle:{color:chartMuted}},axisTick:{show:false},splitLine:{lineStyle:{color:chartLine}}},
+      yAxis:{type:'value',name:'Esforço',nameLocation:'middle',nameGap:30,min:0,max:10,interval:2,axisLabel:{color:chartText},axisLine:{show:false},axisTick:{show:false},splitLine:{lineStyle:{color:chartLine}}},
+      series:[
+        {name:'Trilha',type:'scatter',symbol:'circle',symbolSize:13,itemStyle:{color:'#1D2756'},data:[[1,2],[3,3],[5,6],[7,8]],emphasis:{focus:'series'}},
+        {name:'Acampamento',type:'scatter',symbol:'rect',symbolSize:13,itemStyle:{color:'#16794A'},data:[[2,7],[4,6],[6,8],[8,9]],emphasis:{focus:'series'}},
+        {name:'Serviço',type:'scatter',symbol:'triangle',symbolSize:14,itemStyle:{color:'#2F6FD8'},data:[[1.5,4],[4.5,3],[7,5],[9,6]],emphasis:{focus:'series'}}
+      ]
+    });
+    if('ResizeObserver' in window){
+      var chartObserver=new ResizeObserver(function(entries){entries.forEach(function(entry){var chart=window.echarts.getInstanceByDom(entry.target);if(chart)chart.resize()})});
+      chartElements.forEach(function(element){chartObserver.observe(element)});
+    }else{
+      window.addEventListener('resize',function(){chartInstances.forEach(function(chart){chart.resize()})});
+    }
+  }else{
+    chartElements.forEach(function(element){element.classList.add('chart-unavailable');element.textContent='Apache ECharts não carregou. Consulte os dados fictícios na descrição.'});
+  }
 
   // curvas de nível: campo suave + marching squares; a cada 5 curvas, uma curva mestra mais grossa
   function contour(cv){
@@ -1740,11 +2011,21 @@ button.code:hover{text-decoration-style:solid}
   if(document.fonts&&document.fonts.ready) document.fonts.ready.then(drawAll);
 
   var links=[].slice.call(document.querySelectorAll('.toc a'));
+  var tocDetails=document.querySelector('.toc-details');
+  var tocCurrent=document.querySelector('.toc-current');
+  var mobileNav=window.matchMedia('(max-width: 960px)');
+  if(tocDetails){
+    function syncTocState(event){tocDetails.open=!event.matches}
+    syncTocState(mobileNav);
+    if(mobileNav.addEventListener) mobileNav.addEventListener('change',syncTocState);
+    else if(mobileNav.addListener) mobileNav.addListener(syncTocState);
+    links.forEach(function(a){a.addEventListener('click',function(){if(mobileNav.matches)tocDetails.open=false})});
+  }
   var map={}; links.forEach(function(a){map[a.getAttribute('href').slice(1)]=a});
   if('IntersectionObserver' in window){
     var io=new IntersectionObserver(function(entries){
       entries.forEach(function(en){
-        if(en.isIntersecting){links.forEach(function(a){a.removeAttribute('aria-current')});var a=map[en.target.id];if(a)a.setAttribute('aria-current','true')}
+        if(en.isIntersecting){links.forEach(function(a){a.removeAttribute('aria-current')});var a=map[en.target.id];if(a){a.setAttribute('aria-current','true');if(tocCurrent)tocCurrent.textContent=a.textContent.replace(/^\s*\d+\s*/, '').trim()}}
       });
     },{rootMargin:'-30% 0px -60% 0px'});
     document.querySelectorAll('.chapter').forEach(function(s){io.observe(s)});
