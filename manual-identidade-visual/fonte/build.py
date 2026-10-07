@@ -121,6 +121,8 @@ grads = [
      [("Azul Céu", 0), ("Azul Inah", 55), ("Azul Noite", 100)]),
     ("Mata Profunda", "Fundo escuro com cara de mata fechada, para acampamentos e jornadas.", 160,
      [("Verde Mata", 0), ("Azul Inah", 60), ("Azul Noite", 100)]),
+    ("Rio", "Água e céu em uma combinação luminosa para atividades ao ar livre.", 135,
+     [("Rio", 0), ("Azul Céu", 100)]),
 ]
 def css_grad(angle, stops):
     return f"linear-gradient({angle}deg," + ",".join(f"{C[n]} {p}%" for n, p in stops) + ")"
@@ -132,6 +134,103 @@ def grad(name, use, angle, stops):
             f'<div class="grad-body">{TAG[kind]}<p class="small">{use}</p><div class="crows">{rows}</div></div></article>')
 GRADIENTS = '<div class="grid g3">' + "".join(grad(*g) for g in grads) + "</div>"
 GRAD_CSS = {g[0]: css_grad(g[2], g[3]) for g in grads}
+
+# ---------- temas prontos para o Canva ----------
+themes = [
+    ("Essencial", "Institucional, documentos e peças informativas.", "Branco", "Lis",
+     [("Azul Inah", AZUL), ("Verde Inah", VERDE)],
+     (
+         [("Azul Inah", AZUL, "fundo branco e áreas verdes"), ("Branco", BRANCO, "áreas azuis")],
+         [("Cinza 333", "#333333", "fundo branco"), ("Azul Inah", AZUL, "áreas verdes")],
+         [("Cinza 666", "#666666", "fundo branco"), ("Branco", BRANCO, "áreas azuis")],
+     ), "Inah"),
+    ("Verde Inah", "Uma opção vibrante para destacar chamadas e peças do grupo.", "Verde Inah", "Mata",
+     [("Azul Inah", AZUL), ("Verde Mata", C["Verde Mata"])],
+     (
+         [("Azul Inah", AZUL, "Verde Inah e Verde Folha"), ("Branco", BRANCO, "Verde Mata")],
+         [("Azul Noite", C["Azul Noite"], "áreas verdes claras"), ("Branco", BRANCO, "Verde Mata")],
+         [("Cinza 333", "#333333", "áreas verdes claras"), ("Branco", BRANCO, "Verde Mata")],
+     ), "Inah"),
+    ("Mata Atlântica", "Natureza, acampamentos e atividades ao ar livre.", "Verde Folha", "Mata Profunda",
+     [("Verde Inah", VERDE), ("Areia", C["Areia"])],
+     (
+         [("Azul Inah", AZUL, "fundo Verde Folha"), ("Branco", BRANCO, "áreas Verde Mata e azuis")],
+         [("Azul Noite", C["Azul Noite"], "fundo Verde Folha"), ("Branco", BRANCO, "áreas escuras")],
+         [("Cinza 333", "#333333", "fundo Verde Folha"), ("Branco", BRANCO, "áreas escuras")],
+     ), "Mata"),
+    ("Rio e Céu", "Peças leves, redes sociais e atividades com jovens.", "Rio", "Lis",
+     [("Rio", C["Rio"]), ("Verde Inah", VERDE)],
+     (
+         [("Azul Inah", AZUL, "fundo Rio e áreas verdes"), ("Branco", BRANCO, "áreas azuis")],
+         [("Azul Noite", C["Azul Noite"], "fundo Rio e áreas verdes"), ("Branco", BRANCO, "áreas azuis")],
+         [("Cinza 333", "#333333", "fundo Rio e áreas verdes"), ("Branco", BRANCO, "áreas azuis")],
+     ), "Rio"),
+    ("Fogo de Conselho", "Festas, celebrações e encontros ao redor da fogueira.", "Laranja Fogueira", "Fogueira",
+     [("Amarelo Lanterna", C["Amarelo Lanterna"]), ("Verde Inah", VERDE)],
+     (
+         [("Azul Noite", C["Azul Noite"], "fundo Laranja e gradiente"), ("Azul Inah", AZUL, "fundo Laranja e gradiente")],
+         [("Cinza 333", "#333333", "fundo Laranja e gradiente"), ("Azul Noite", C["Azul Noite"], "fundo Laranja e gradiente")],
+         [("Azul Inah", AZUL, "fundo Laranja e gradiente"), ("Cinza 333", "#333333", "fundo Laranja e gradiente")],
+     ), "Sempre Alerta"),
+    ("Noite", "Apresentações, telas e peças para atividades noturnas.", "Azul Noite", "Noite",
+     [("Azul Céu", C["Azul Céu"]), ("Verde Inah", VERDE)],
+     (
+         [("Branco", BRANCO, "fundo escuro e gradiente"), ("Verde Inah", VERDE, "fundo Azul Noite")],
+         [("Névoa", "#EEF5F1", "Azul Inah e Azul Noite"), ("Branco", BRANCO, "fundo escuro e gradiente")],
+         [("Branco", BRANCO, "fundo escuro e gradiente"), ("Verde Inah", VERDE, "fundo Azul Noite")],
+     ), "Sempre Alerta"),
+    ("Amanhecer", "Convites e peças leves com cores luminosas.", "Amarelo Lanterna", "Amanhecer",
+     [("Verde Folha", C["Verde Folha"]), ("Laranja Fogueira", C["Laranja Fogueira"])],
+     (
+         [("Azul Noite", C["Azul Noite"], "fundo amarelo e gradiente"), ("Azul Inah", AZUL, "fundo amarelo e gradiente")],
+         [("Cinza 333", "#333333", "fundo amarelo e gradiente"), ("Azul Noite", C["Azul Noite"], "fundo amarelo e gradiente")],
+         [("Azul Inah", AZUL, "fundo amarelo e gradiente"), ("Cinza 333", "#333333", "fundo amarelo e gradiente")],
+     ), "Bom dia!"),
+    ("Rio", "Uma alternativa tropical para eventos e atividades ao ar livre.", "Névoa", "Rio",
+     [("Azul Céu", C["Azul Céu"]), ("Verde Inah", VERDE)],
+     (
+         [("Azul Inah", AZUL, "fundo Névoa e áreas Rio"), ("Branco", BRANCO, "áreas Azul Céu")],
+         [("Azul Noite", C["Azul Noite"], "fundo Névoa e áreas Rio"), ("Branco", BRANCO, "áreas Azul Céu")],
+         [("Cinza 333", "#333333", "fundo Névoa e áreas Rio"), ("Branco", BRANCO, "áreas Azul Céu")],
+     ), "Rio"),
+]
+
+TEXT_ROLES = ("Principal", "Complementar", "Detalhes")
+
+def theme_chip(name, color):
+    return (f'<span class="theme-chip"><i aria-hidden="true" style="background:{color}"></i>'
+            f'<button class="code" type="button" data-copy="{color}" aria-label="Copiar {name}, {color}">{color}</button></span>')
+
+def theme_text_choice(name, color, context):
+    return (f'<div class="theme-text-option">{theme_chip(name, color)}'
+            f'<span class="theme-option-label">{context}</span></div>')
+
+def theme(name, use, solid_name, gradient_name, elements, text_colors, preview):
+    if len(text_colors) != len(TEXT_ROLES) or any(not choices for choices in text_colors):
+        raise ValueError(f"{name} deve definir opções para {len(TEXT_ROLES)} papéis de texto")
+    _, _, angle, stops = next(item for item in grads if item[0] == gradient_name)
+    gradient = GRAD_CSS[gradient_name]
+    stop_chips = "".join(theme_chip(stop_name, C[stop_name]) for stop_name, _ in stops)
+    element_chips = "".join(theme_chip(color_name, color) for color_name, color in elements)
+    text_chips = "".join(
+        f'<div class="theme-text-role"><span class="theme-option-label">{role}</span>'
+        f'<div class="theme-text-options">{"".join(theme_text_choice(color_name, color, context) for color_name, color, context in choices)}</div></div>'
+        for role, choices in zip(TEXT_ROLES, text_colors))
+    preview_color = text_rule(sample(stops))[1]
+    return (
+        f'<article class="theme-card"><header class="theme-head"><h4>{name}</h4><p>{use}</p></header>'
+        f'<div class="theme-preview" style="background:{gradient};color:{preview_color}" role="img" aria-label="Prévia do tema {name}">'
+        f'<strong>{preview}</strong><span>{gradient_name} · {angle}°</span></div>'
+        f'<div class="theme-body"><section class="theme-role" aria-label="Fundo"><h5>Fundo</h5>'
+        f'<div class="theme-options"><div class="theme-option"><span class="theme-option-label">Cor sólida</span>'
+        f'{theme_chip(solid_name, C[solid_name])}</div><div class="theme-option"><span class="theme-option-label">Gradiente {gradient_name} · {angle}°</span>'
+        f'<div class="theme-gradient" role="img" aria-label="Gradiente {gradient_name}, cores {", ".join(stop_name for stop_name, _ in stops)}" style="background:{gradient}"></div>'
+        f'<div class="theme-chips">{stop_chips}</div></div></div></section>'
+        f'<section class="theme-role" aria-label="Elementos"><h5>Elementos · cores sólidas</h5><div class="theme-chips">{element_chips}</div></section>'
+        f'<section class="theme-role" aria-label="Texto"><h5>Texto · cores sólidas</h5><div class="theme-text">{text_chips}</div></section>'
+        f'</div></article>')
+
+THEMES = '<div class="themes">' + "".join(theme(*item) for item in themes) + "</div>"
 
 # ---------- malhas ----------
 def rad(size, at, name, a, stop):
@@ -273,7 +372,7 @@ DARK_CODES = '<div class="legend-g">' + "".join(crow(n, C[n]) for n in ["Branco"
 
 html = open(TPL, encoding="utf-8").read()
 rep = {"{{GRAYS}}": GRAYS, "{{PALETTES}}": PALETTES, "{{SCALES}}": SCALES, "{{PAIRS}}": PAIRS,
-       "{{GRADIENTS}}": GRADIENTS, "{{MESHES}}": MESHES, "{{TEXTURES}}": TEXTURES, "{{RAMOS}}": RAMOS,
+       "{{GRADIENTS}}": GRADIENTS, "{{THEMES}}": THEMES, "{{MESHES}}": MESHES, "{{TEXTURES}}": TEXTURES, "{{RAMOS}}": RAMOS,
        "{{EB}}": EB, "{{TEMA}}": TEMA, "{{SPEC_AZUL}}": main_spec(AZUL), "{{SPEC_VERDE}}": main_spec(VERDE),
        "{{MESH_FOGUEIRA}}": MESH["fogueira"],
        "{{GRAD_LIS}}": GRAD_CSS["Lis"], "{{GRAD_MATA}}": GRAD_CSS["Mata"],
