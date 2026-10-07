@@ -42,6 +42,14 @@ python3 manual-identidade-visual/fonte/build.py \
 
 O comando usa apenas Python e os módulos do próprio projeto; ele substitui o arquivo HTML de saída indicado no segundo argumento. Para visualizar os documentos PDF, use um leitor de PDF.
 
+## GitHub Pages
+
+O workflow [Deploy GitHub Pages](.github/workflows/pages.yml) publica o manual HTML e seus diretórios de imagens e ícones sempre que há um push para `main`. Depois do primeiro deploy, a página ficará disponível em:
+
+<https://inah147.github.io/brand-kit/>
+
+O workflow tenta ativar o GitHub Pages automaticamente. Se a publicação não iniciar, confira em **Settings > Pages** se a fonte está definida como **GitHub Actions**. O site contém apenas o manual HTML e os recursos necessários; os PDFs e arquivos-fonte continuam no repositório, mas não são publicados como parte do site.
+
 ## Uso e direitos
 
 O repositório não declara uma licença de uso. A presença de arquivos aqui não concede, por si só, autorização para redistribuir ou utilizar marcas, logotipos e documentos de terceiros. Antes de publicar, adaptar ou usar esses materiais fora do contexto previsto, confirme as permissões e orientações dos respectivos titulares e consulte os manuais de identidade aplicáveis.
