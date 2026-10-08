@@ -9,6 +9,7 @@ Repositório de identidade visual do grupo Inah. Reúne o manual da marca, cores
 
 - [Manual de Identidade Visual Inah (PDF)](Manual%20de%20Identidade%20Visual%20Inah.pdf)
 - [Manual de identidade visual (HTML)](manual-identidade-visual/index.html)
+- [Guia de marca (HTML)](manual-identidade-visual/guia-de-marca.html)
 - [Paletas e cores (YAML)](colors.yaml)
 - [Tipografia (YAML)](typographi.yaml)
 - [Logotipos e marcas](logos/)
@@ -20,6 +21,7 @@ Repositório de identidade visual do grupo Inah. Reúne o manual da marca, cores
 | --- | --- |
 | `Manual de Identidade Visual Inah.pdf` | Manual da identidade visual do grupo Inah. |
 | `manual-identidade-visual/index.html` | Versão HTML do manual, com referências de cores e aplicações da identidade. |
+| `manual-identidade-visual/guia-de-marca.html` | Guia de marca resumido, no formato do modelo de guia de marca do Canva. |
 | `colors.yaml` | Cores da marca Inah, escala de cinza, cores dos ramos e referências dos Escoteiros do Brasil. |
 | `typographi.yaml` | Famílias tipográficas e seus usos. |
 | `logos/inah/` | Logotipos e aplicações da marca Inah. |
