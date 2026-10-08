@@ -33,7 +33,7 @@ jobs:
       - name: Prepare site
         run: |
           mkdir -p _site
-          cp manual-identidade-visual/index.html _site/
+          cp manual-identidade-visual/index.html manual-identidade-visual/guia-de-marca.html _site/
           cp -R manual-identidade-visual/img manual-identidade-visual/icones _site/
 
       - name: Upload Pages artifact
